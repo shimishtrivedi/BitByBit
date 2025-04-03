@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vedaverse - Ancient Wisdom for Modern Minds</title>
+    <style>
+        :root {
+            --primary: #FF6B00;
+            --secondary: #FFD700;
+            --dark: #121212;
+            --darker: #0A0A0A;
+            --light: #E0E0E0;
+            --accent: #9C4DFF;
+            --text: #F5F5F5;
+            --text-secondary: #BDBDBD;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--darker), #1A1A2E);
+            color: var(--text);
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+            opacity: 0.08;
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            text-shadow: 0 0 15px rgba(255,215,0,0.3);
+        }
+        
+        .tagline {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 5rem 0;
+            background: linear-gradient(rgba(18,18,18,0.8), rgba(18,18,18,0.9)), url('https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            position: relative;
+            color: white;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            line-height: 1.2;
+            text-shadow: 0 0 10px rgba(255,215,0,0.2);
+        }
+        
+        h2 {
+            color: var(--accent);
+            margin-top: 3rem;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), #FF8C00);
+            color: var(--text);
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 1.5rem 0;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 20px rgba(255,107,0,0.3);
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,107,0,0.4);
+            background: linear-gradient(135deg, #FF5E00, #FF7B00);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .feature-card {
+            background: rgba(30,30,30,0.7);
+            border-radius: 15px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border-color: rgba(255,107,0,0.3);
+            background: rgba(40,40,40,0.7);
+        }
+        
+        .feature-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 15px rgba(255,107,0,0.3);
+        }
+        
+        .feature-card h3 {
+            color: var(--accent);
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+        
+        .knowledge-section {
+            background: rgba(30,30,30,0.7);
+            border-radius: 15px;
+            padding: 3rem;
+            margin: 4rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .knowledge-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            background: rgba(40,40,40,0.7);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .knowledge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border-color: rgba(156,77,255,0.3);
+        }
+        
+        .knowledge-card-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(110%);
+            opacity: 0.9;
+        }
+        
+        .knowledge-card-content {
+            padding: 1.8rem;
+        }
+        
+        .knowledge-card h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+        }
+        
+        .knowledge-card p {
+            color: var(--text-secondary);
+        }
+        
+        .interactive-section {
+            background: linear-gradient(135deg, var(--darker), #4E258D);
+            color: var(--text);
+            padding: 5rem 2rem;
+            border-radius: 15px;
+            margin: 5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .interactive-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .interactive-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .interactive-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .interactive-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .interactive-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.12);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .interactive-card i {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 15px rgba(255,215,0,0.3);
+        }
+        
+        .interactive-card h3 {
+            color: var(--text);
+            font-size: 1.4rem;
+        }
+        
+        .interactive-card p {
+            color: var(--text-secondary);
+        }
+        
+        .testimonial-section {
+            text-align: center;
+            margin: 5rem 0;
+        }
+        
+        .testimonial {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 3rem;
+            background: rgba(30,30,30,0.7);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 5rem;
+            color: rgba(156, 77, 255, 0.1);
+            font-family: serif;
+        }
+        
+        .testimonial-text {
+            font-size: 1.3rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            color: var(--text);
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        
+        footer {
+            background-color: var(--darker);
+            color: var(--text);
+            text-align: center;
+            padding: 4rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .footer-logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            text-shadow: 0 0 10px rgba(255,215,0,0.2);
+        }
+        
+        .social-links {
+            margin: 2rem 0;
+        }
+        
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--secondary);
+            transform: translateY(-3px);
+            text-shadow: 0 0 10px rgba(255,215,0,0.3);
+        }
+        
+        .footer-contact {
+            margin-top: 2rem;
+        }
+        
+        .footer-contact a {
+            color: var(--text-secondary);
+            margin: 0 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-contact a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-contact i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .knowledge-section, .interactive-section {
+                padding: 2rem 1.5rem;
+            }
+            
+            .feature-card, .interactive-card {
+                padding: 2rem;
+            }
+            
+            .testimonial {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Vedaverse</div>
+            <div class="tagline">Where Ancient Wisdom Meets Modern Innovation</div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="hero">
+            <h1>Static Knowledge of Vedas, Upanishads & Hindu Mythology</h1>
+            <p style="font-size: 1.3rem; max-width: 800px; margin: 0 auto;">Explore the timeless wisdom of ancient India in a structured, accessible format enhanced with AI-powered insights and interactive features.</p>
+            <a href="#explore" class="cta-button">Begin Your Enlightenment</a>
+        </section>
+        
+        <section>
+            <h2>Why Traditional Learning Needs Reinvention</h2>
+            <p style="font-size: 1.1rem; color: var(--text-secondary);">For centuries, Vedic knowledge has been locked in static formats that fail to engage today's learners. Vedaverse transforms this ancient wisdom into an accessible, structured format that bridges the gap between traditional scripture and modern learning preferences, enhanced with AI-powered tools.</p>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>Comprehensive Library</h3>
+                    <p>Access the complete texts of Vedas, Upanishads, Puranas, and more in well-organized digital formats with AI-powered search and recommendations.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI-Powered Insights</h3>
+                    <p>Our intelligent system highlights connections between ancient texts and modern science, philosophy, and technology.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>Smart Cross-References</h3>
+                    <p>See how concepts connect across different texts with our AI-driven linking system that reveals hidden relationships.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="explore" class="knowledge-section">
+            <h2>Explore Our Knowledge Repository</h2>
+            <p style="font-size: 1.1rem; color: var(--text-secondary);">Dive deep into the structured knowledge base of ancient Indian wisdom, enhanced with AI-powered features:</p>
+            
+            <div class="knowledge-grid">
+                <div class="knowledge-card">
+                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Vedas" class="knowledge-card-img">
+                    <div class="knowledge-card-content">
+                        <h3>The Four Vedas</h3>
+                        <p>Complete texts of Rigveda, Yajurveda, Samaveda, and Atharvaveda with multiple translations and AI-generated commentaries.</p>
+                    </div>
+                </div>
+                
+                <div class="knowledge-card">
+                    <img src="https://images.unsplash.com/photo-1635070040809-4e9c43d5a95c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Upanishads" class="knowledge-card-img">
+                    <div class="knowledge-card-content">
+                        <h3>Principal Upanishads</h3>
+                        <p>The 13 major Upanishads with verse-by-verse explanations and AI-powered philosophical analysis.</p>
+                    </div>
+                </div>
+                
+                <div class="knowledge-card">
+                    <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Puranas" class="knowledge-card-img">
+                    <div class="knowledge-card-content">
+                        <h3>Puranas & Itihasas</h3>
+                        <p>Complete texts of major Puranas, Mahabharata, and Ramayana with historical context and AI-generated timelines.</p>
+                    </div>
+                </div>
+                
+                <div class="knowledge-card">
+                    <img src="https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Philosophy" class="knowledge-card-img">
+                    <div class="knowledge-card-content">
+                        <h3>Darshanas</h3>
+                        <p>The six schools of Hindu philosophy with AI-powered comparative analysis and modern interpretations.</p>
+                    </div>
+                </div>
+                
+                <div class="knowledge-card">
+                    <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Vedic Science" class="knowledge-card-img">
+                    <div class="knowledge-card-content">
+                        <h3>Vedic Science</h3>
+                        <p>Scientific concepts found in Vedic texts compared with modern discoveries through AI-powered analysis.</p>
+                    </div>
+                </div>
+                
+                <div class="knowledge-card">
+                    <img src="https://images.unsplash.com/photo-1508511267-5edd6615a3fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mythology" class="knowledge-card-img">
+                    <div class="knowledge-card-content">
+                        <h3>Mythology Encyclopedia</h3>
+                        <p>Comprehensive AI-enhanced guide to deities, stories, and symbols in Hindu mythology with interactive family trees.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="interactive-section">
+            <div class="interactive-content">
+                <h2 style="color: var(--secondary);">Interactive Learning Features</h2>
+                <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; color: var(--text-secondary);">Vedaverse brings ancient texts to life with cutting-edge interactive technologies powered by AI:</p>
+                
+                <div class="interactive-features">
+                    <div class="interactive-card">
+                        <i class="fas fa-robot"></i>
+                        <h3>AI Vedic Rishi</h3>
+                        <p>Ask questions and get insightful answers from our AI-powered Vedic scholar trained on authentic scriptures.</p>
+                    </div>
+                    
+                    <div class="interactive-card">
+                        <i class="fas fa-gamepad"></i>
+                        <h3>Gamified Learning</h3>
+                        <p>Earn points, unlock levels, and collect badges as you master Vedic concepts through interactive challenges.</p>
+                    </div>
+                    
+                    <div class="interactive-card">
+                        <i class="fas fa-vr-cardboard"></i>
+                        <h3>Immersive Experiences</h3>
+                        <p>Explore ancient universities like Nalanda and temples in virtual reality with AI-guided tours.</p>
+                    </div>
+                </div>
+                
+                <a href="#" class="cta-button" style="background: linear-gradient(135deg, var(--accent), #7B2CBF); box-shadow: 0 5px 20px rgba(156,77,255,0.3);">Experience AI Now</a>
+            </div>
+        </section>
+        
+        <section class="testimonial-section">
+            <h2>What Our Users Say</h2>
+            <div class="testimonial">
+                <p class="testimonial-text">"Vedaverse has transformed how I study ancient texts. The AI-powered cross-references reveal connections I never noticed before, and the interactive features make learning engaging and fun. The dark theme is easy on the eyes during long study sessions."</p>
+                <p class="testimonial-author">- Dr. Priya Sharma, Professor of Indology</p>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="footer-logo">Vedaverse</div>
+        <p style="color: var(--text-secondary);">A one-stop platform where ancient wisdom meets modern innovation</p>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        
+        <div class="footer-contact">
+            <a href="mailto:shivadagur13@gmail.com"><i class="fas fa-envelope"></i> shivadagur13@gmail.com</a>
+            <a href="tel:7060895594"><i class="fas fa-phone"></i> 7060895594</a>
+        </div>
+        
+        <p style="margin-top: 2rem; color: var(--text-secondary); font-size: 0.9rem;">© 2023 Vedaverse. All rights reserved.</p>
+    </footer>
+</body>
+</html>

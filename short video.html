@@ -1,0 +1,327 @@
+short video 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VedaVerse - Ancient Wisdom Videos</title>
+    <style>
+        :root {
+            --primary: #8a2be2;
+            --secondary: #4ECDC4;
+            --dark: #0a0a12;
+            --darker: #06060b;
+            --card-bg: #1a1a2e;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background-color: var(--dark);
+            color: #e0e0ff;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(135deg, #3a1c71 0%, #0d0330 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--primary);
+        }
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.03)" d="M0,0 L100,0 L100,100 Q50,80 0,100 Z"></path></svg>');
+            background-size: cover;
+            opacity: 0.5;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+        }
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            gap: 10px;
+        }
+        .tab-btn {
+            background: rgba(138, 43, 226, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .tab-btn.active {
+            background: var(--primary);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        }
+        .video-section {
+            display: none;
+        }
+        .video-section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 40px 0;
+        }
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 1px solid #2d2d4d;
+        }
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(138, 43, 226, 0.3);
+            border-color: var(--primary);
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .video-info {
+            padding: 20px;
+        }
+        .video-info h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        .video-info p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+        .video-meta {
+            display: flex;
+            gap: 15px;
+            color: var(--primary);
+            font-size: 0.85rem;
+        }
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VedaVerse Video Library</h1>
+            <p>Where ancient wisdom meets modern learning formats</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tab-container">
+            <button class="tab-btn active" onclick="openTab('short')">Short Videos</button>
+            <button class="tab-btn" onclick="openTab('long')">Long Videos</button>
+        </div>
+
+        <!-- Short Videos Section -->
+        <div id="short" class="video-section active">
+            <div class="video-grid">
+                <!-- Video 1 -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/HmndLgegGJg" 
+                                title="Vedic Math Multiplication" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Vedic Math: Lightning Fast Multiplication</h3>
+                        <p>Learn the ancient Indian technique to multiply large numbers mentally in seconds</p>
+                        <div class="video-meta">
+                            <span>⏱️ 1:45</span>
+                            <span>🧮 Math</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/9FG7dDGz3gQ" 
+                                title="Ayurvedic Daily Routine" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Ayurvedic Morning Rituals</h3>
+                        <p>3 simple practices from 5000-year-old texts that modern science confirms</p>
+                        <div class="video-meta">
+                            <span>⏱️ 2:10</span>
+                            <span>🌿 Ayurveda</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/0Z1ZQk6YlpE" 
+                                title="Vedic Astronomy" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Vedic Description of Solar System</h3>
+                        <p>How ancient texts accurately described celestial bodies centuries before telescopes</p>
+                        <div class="video-meta">
+                            <span>⏱️ 1:52</span>
+                            <span>🪐 Astronomy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Long Videos Section -->
+        <div id="long" class="video-section">
+            <div class="video-grid">
+                <!-- Video 1 -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/HQDAU0s5T8Q" 
+                                title="Quantum Physics in Vedas" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Quantum Physics in Ancient Texts</h3>
+                        <p>30-minute documentary exploring parallels between Vedic philosophy and quantum mechanics</p>
+                        <div class="video-meta">
+                            <span>⏱️ 30:15</span>
+                            <span>⚛️ Physics</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/9ZRgBPlYubo" 
+                                title="Nalanda University" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>The Lost Wisdom of Nalanda</h3>
+                        <p>45-minute exploration of the world's first residential university and its curriculum</p>
+                        <div class="video-meta">
+                            <span>⏱️ 45:22</span>
+                            <span>🏛️ History</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/3BmDZ3T6ZJ4" 
+                                title="Yoga Neuroscience" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Neuroscience of Yoga & Meditation</h3>
+                        <p>28-minute scientific analysis of how ancient practices affect brain chemistry</p>
+                        <div class="video-meta">
+                            <span>⏱️ 28:40</span>
+                            <span>🧠 Neuroscience</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(tabName) {
+            // Hide all tab content
+            const tabContents = document.getElementsByClassName("video-section");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // Remove active class from all buttons
+            const tabButtons = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            // Show current tab and mark button active
+            document.getElementById(tabName).classList.add("active");
+            event.currentTarget.classList.add("active");
+        }
+
+        // Add constellation effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('header');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.background = 'white';
+                star.style.borderRadius = '50%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.opacity = Math.random();
+                star.style.animation = `twinkle ${Math.random() * 5 + 3}s infinite alternate`;
+                header.appendChild(star);
+            }
+
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes twinkle {
+                    0% { opacity: 0.2; }
+                    100% { opacity: ${Math.random() * 0.7 + 0.3}; }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

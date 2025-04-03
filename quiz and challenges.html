@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VedaVerse | Quiz & Challenges</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --dark: #121212;
+            --darker: #0A0A0A;
+            --light: #F5F5F7;
+            --gray: #2D2D2D;
+            --success: #4CAF50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 15px;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        /* Quiz Section */
+        .quiz-container {
+            background: var(--darker);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quiz-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .question-count {
+            background: var(--gray);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .score-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .score {
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        
+        .stars {
+            color: gold;
+        }
+        
+        .question-container {
+            margin-bottom: 2rem;
+            display: none;
+        }
+        
+        .question-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .option {
+            background: var(--gray);
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option:hover {
+            background: #3D3D3D;
+            transform: translateY(-3px);
+        }
+        
+        .option.correct {
+            background: var(--success);
+        }
+        
+        .option.incorrect {
+            background: var(--secondary);
+        }
+        
+        .option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .option-label {
+            display: flex;
+            align-items: center;
+        }
+        
+        .option-label::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--light);
+            border-radius: 50%;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .option input:checked ~ .option-label::before {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .quiz-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5A52E0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(108, 99, 255, 0.1);
+        }
+        
+        .quiz-result {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+        
+        .quiz-result.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .result-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .result-score {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .result-message {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .badge {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            background: var(--darker);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid var(--primary);
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.3);
+        }
+        
+        .badge i {
+            font-size: 3rem;
+            color: var(--primary);
+        }
+        
+        /* Challenges Section */
+        .challenges-container {
+            background: var(--darker);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .challenge-card {
+            background: var(--gray);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .challenge-image {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .challenge-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .challenge-card:hover .challenge-image img {
+            transform: scale(1.1);
+        }
+        
+        .challenge-content {
+            padding: 1.5rem;
+        }
+        
+        .challenge-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .challenge-desc {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: #CCCCCC;
+        }
+        
+        .challenge-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+        
+        .challenge-xp {
+            background: rgba(108, 99, 255, 0.2);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .challenge-status {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .challenge-status.completed {
+            color: var(--success);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .challenges-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="https://via.placeholder.com/50x50/6C63FF/FFFFFF?text=VV" alt="VedaVerse Logo">
+                VedaVerse
+            </div>
+            <p class="tagline">Where Ancient Wisdom Meets Modern Innovation</p>
+        </header>
+        
+        <section class="quiz-section">
+            <h2 class="section-title">Vedic Science Quiz</h2>
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <div class="question-count">Question <span id="current-question">1</span>/5</div>
+                    <div class="score-container">
+                        <div class="score">Score: <span id="score">0</span></div>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Question 1 -->
+                <div class="question-container active" data-question="1">
+                    <div class="question-text">
+                        Which Vedic concept aligns with the modern understanding of quantum physics' "observer effect"?
+                    </div>
+                    <div class="options-container">
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q1" id="q1a">
+                            <label for="q1a" class="option-label">The concept of Dharma</label>
+                        </div>
+                        <div class="option" data-correct="true">
+                            <input type="radio" name="q1" id="q1b">
+                            <label for="q1b" class="option-label">The idea that consciousness affects reality (Maya)</label>
+                        </div>
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q1" id="q1c">
+                            <label for="q1c" class="option-label">The caste system</label>
+                        </div>
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q1" id="q1d">
+                            <label for="q1d" class="option-label">The practice of yoga asanas</label>
+                        </div>
+                    </div>
+                    <div class="quiz-footer">
+                        <button class="btn btn-secondary" id="next-btn">Next Question</button>
+                    </div>
+                </div>
+                
+                <!-- Question 2 -->
+                <div class="question-container" data-question="2">
+                    <div class="question-text">
+                        The ancient Nalanda University, which can be explored in VR through VedaVerse, was famous for:
+                    </div>
+                    <div class="options-container">
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q2" id="q2a">
+                            <label for="q2a" class="option-label">Military training</label>
+                        </div>
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q2" id="q2b">
+                            <label for="q2b" class="option-label">Agricultural studies</label>
+                        </div>
+                        <div class="option" data-correct="true">
+                            <input type="radio" name="q2" id="q2c">
+                            <label for="q2c" class="option-label">Being a center of Vedic and Buddhist learning</label>
+                        </div>
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q2" id="q2d">
+                            <label for="q2d" class="option-label">Medical research only</label>
+                        </div>
+                    </div>
+                    <div class="quiz-footer">
+                        <button class="btn btn-secondary" id="prev-btn">Previous</button>
+                        <button class="btn btn-primary" id="next-btn2">Next Question</button>
+                    </div>
+                </div>
+                
+                <!-- Question 3 -->
+                <div class="question-container" data-question="3">
+                    <div class="question-text">
+                        The Vedic concept of "Akasha" is most similar to which modern scientific concept?
+                    </div>
+                    <div class="options-container">
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q3" id="q3a">
+                            <label for="q3a" class="option-label">Gravity</label>
+                        </div>
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q3" id="q3b">
+                            <label for="q3b" class="option-label">Electromagnetism</label>
+                        </div>
+                        <div class="option" data-correct="true">
+                            <input type="radio" name="q3" id="q3c">
+                            <label for="q3c" class="option-label">The quantum field or space-time fabric</label>
+                        </div>
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q3" id="q3d">
+                            <label for="q3d" class="option-label">Nuclear energy</label>
+                        </div>
+                    </div>
+                    <div class="quiz-footer">
+                        <button class="btn btn-secondary" id="prev-btn2">Previous</button>
+                        <button class="btn btn-primary" id="next-btn3">Next Question</button>
+                    </div>
+                </div>
+                
+                <!-- Question 4 -->
+                <div class="question-container" data-question="4">
+                    <div class="question-text">
+                        Which Vedic text contains detailed descriptions of flying machines called "Vimanas"?
+                    </div>
+                    <div class="options-container">
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q4" id="q4a">
+                            <label for="q4a" class="option-label">The Upanishads</label>
+                        </div>
+                        <div class="option" data-correct="true">
+                            <input type="radio" name="q4" id="q4b">
+                            <label for="q4b" class="option-label">The Vaimanika Shastra</label>
+                        </div>
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q4" id="q4c">
+                            <label for="q4c" class="option-label">The Bhagavad Gita</label>
+                        </div>
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q4" id="q4d">
+                            <label for="q4d" class="option-label">The Rigveda Samhita</label>
+                        </div>
+                    </div>
+                    <div class="quiz-footer">
+                        <button class="btn btn-secondary" id="prev-btn3">Previous</button>
+                        <button class="btn btn-primary" id="next-btn4">Next Question</button>
+                    </div>
+                </div>
+                
+                <!-- Question 5 -->
+                <div class="question-container" data-question="5">
+                    <div class="question-text">
+                        The Vedic calculation of the speed of light is closest to which modern value?
+                    </div>
+                    <div class="options-container">
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q5" id="q5a">
+                            <label for="q5a" class="option-label">150,000 km/s</label>
+                        </div>
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q5" id="q5b">
+                            <label for="q5b" class="option-label">200,000 km/s</label>
+                        </div>
+                        <div class="option" data-correct="false">
+                            <input type="radio" name="q5" id="q5c">
+                            <label for="q5c" class="option-label">250,000 km/s</label>
+                        </div>
+                        <div class="option" data-correct="true">
+                            <input type="radio" name="q5" id="q5d">
+                            <label for="q5d" class="option-label">300,000 km/s</label>
+                        </div>
+                    </div>
+                    <div class="quiz-footer">
+                        <button class="btn btn-secondary" id="prev-btn4">Previous</button>
+                        <button class="btn btn-primary" id="submit-btn">Submit Quiz</button>
+                    </div>
+                </div>
+                
+                <!-- Quiz Result -->
+                <div class="quiz-result">
+                    <div class="badge">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="result-title">Quiz Completed!</h3>
+                    <div class="result-score">Your Score: <span id="final-score">0</span>/5</div>
+                    <div class="result-message" id="result-message">
+                        Keep exploring Vedic science to unlock more wisdom!
+                    </div>
+                    <button class="btn btn-primary" id="retry-btn">Try Again</button>
+                </div>
+            </div>
+        </section>
+        
+        <section class="challenges-section">
+            <h2 class="section-title">Vedic Challenges</h2>
+            <div class="challenges-container">
+                <div class="challenges-grid">
+                    <div class="challenge-card">
+                        <div class="challenge-image">
+                            <img src="https://images.unsplash.com/photo-1542370285-b8eb8317691c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Nalanda VR">
+                        </div>
+                        <div class="challenge-content">
+                            <h3 class="challenge-title">Nalanda Explorer</h3>
+                            <p class="challenge-desc">Complete the VR tour of ancient Nalanda University and answer all quiz questions.</p>
+                            <div class="challenge-meta">
+                                <span class="challenge-xp">250 XP</span>
+                                <span class="challenge-status">Not Started</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <div class="challenge-image">
+                            <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Vedic Science">
+                        </div>
+                        <div class="challenge-content">
+                            <h3 class="challenge-title">Vedic Scientist</h3>
+                            <p class="challenge-desc">Compare 5 Vedic concepts with modern scientific discoveries.</p>
+                            <div class="challenge-meta">
+                                <span class="challenge-xp">500 XP</span>
+                                <span class="challenge-status">In Progress</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <div class="challenge-image">
+                            <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Yoga Challenge">
+                        </div>
+                        <div class="challenge-content">
+                            <h3 class="challenge-title">Yoga Mastery</h3>
+                            <p class="challenge-desc">Complete 7 days of guided yoga sessions with our AI Rishi.</p>
+                            <div class="challenge-meta">
+                                <span class="challenge-xp">350 XP</span>
+                                <span class="challenge-status">Not Started</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <div class="challenge-image">
+                            <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Sanskrit Challenge">
+                        </div>
+                        <div class="challenge-content">
+                            <h3 class="challenge-title">Sanskrit Scholar</h3>
+                            <p class="challenge-desc">Learn and correctly pronounce 10 key Sanskrit terms from Vedic texts.</p>
+                            <div class="challenge-meta">
+                                <span class="challenge-xp">400 XP</span>
+                                <span class="challenge-status completed">Completed</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <div class="challenge-image">
+                            <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Astronomy Challenge">
+                        </div>
+                        <div class="challenge-content">
+                            <h3 class="challenge-title">Celestial Navigator</h3>
+                            <p class="challenge-desc">Identify 5 constellations mentioned in Vedic astronomy using our AR sky map.</p>
+                            <div class="challenge-meta">
+                                <span class="challenge-xp">300 XP</span>
+                                <span class="challenge-status">Not Started</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <div class="challenge-image">
+                            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Meditation Challenge">
+                        </div>
+                        <div class="challenge-content">
+                            <h3 class="challenge-title">Meditation Guru</h3>
+                            <p class="challenge-desc">Complete a 21-day meditation challenge with daily guided sessions.</p>
+                            <div class="challenge-meta">
+                                <span class="challenge-xp">600 XP</span>
+                                <span class="challenge-status">In Progress</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quiz functionality
+            const questions = document.querySelectorAll('.question-container');
+            const nextButtons = document.querySelectorAll('[id^="next-btn"]');
+            const prevButtons = document.querySelectorAll('[id^="prev-btn"]');
+            const submitButton = document.getElementById('submit-btn');
+            const retryButton = document.getElementById('retry-btn');
+            const currentQuestionSpan = document.getElementById('current-question');
+            const scoreSpan = document.getElementById('score');
+            const finalScoreSpan = document.getElementById('final-score');
+            const resultMessage = document.getElementById('result-message');
+            const quizResult = document.querySelector('.quiz-result');
+            const stars = document.querySelectorAll('.stars i');
+            
+            let currentQuestion = 0;
+            let score = 0;
+            let selectedOptions = Array(questions.length).fill(null);
+            
+            // Initialize the quiz
+            showQuestion(currentQuestion);
+            
+            // Next button functionality
+            nextButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const currentQuestionEl = questions[currentQuestion];
+                    const selectedOption = currentQuestionEl.querySelector('input[type="radio"]:checked');
+                    
+                    if (!selectedOption) {
+                        alert('Please select an answer before proceeding.');
+                        return;
+                    }
+                    
+                    // Store selected option
+                    selectedOptions[currentQuestion] = selectedOption.id;
+                    
+                    // Check if answer is correct
+                    const optionElement = selectedOption.closest('.option');
+                    if (optionElement.dataset.correct === "true") {
+                        score++;
+                        scoreSpan.textContent = score;
+                        updateStars();
+                    }
+                    
+                    // Move to next question
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                });
+            });
+            
+            // Previous button functionality
+            prevButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    currentQuestion--;
+                    showQuestion(currentQuestion);
+                });
+            });
+            
+            // Submit button functionality
+            submitButton.addEventListener('click', function() {
+                const currentQuestionEl = questions[currentQuestion];
+                const selectedOption = currentQuestionEl.querySelector('input[type="radio"]:checked');
+                
+                if (!selectedOption) {
+                    alert('Please select an answer before submitting.');
+                    return;
+                }
+                
+                // Store selected option
+                selectedOptions[currentQuestion] = selectedOption.id;
+                
+                // Check if answer is correct
+                const optionElement = selectedOption.closest('.option');
+                if (optionElement.dataset.correct === "true") {
+                    score++;
+                    scoreSpan.textContent = score;
+                    updateStars();
+                }
+                
+                // Show results
+                showResults();
+            });
+            
+            // Retry button functionality
+            retryButton.addEventListener('click', function() {
+                // Reset quiz
+                currentQuestion = 0;
+                score = 0;
+                selectedOptions.fill(null);
+                scoreSpan.textContent = score;
+                resetStars();
+                
+                // Uncheck all radio buttons
+                document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.checked = false;
+                });
+                
+                // Hide results and show first question
+                quizResult.classList.remove('active');
+                showQuestion(currentQuestion);
+            });
+            
+            // Option selection highlighting
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                    
+                    // Remove highlight from all options in this question
+                    this.parentNode.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Highlight selected option
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Show question function
+            function showQuestion(index) {
+                // Hide all questions
+                questions.forEach(question => {
+                    question.classList.remove('active');
+                });
+                
+                // Show current question
+                questions[index].classList.add('active');
+                currentQuestionSpan.textContent = index + 1;
+                
+                // Restore selected option if exists
+                if (selectedOptions[index]) {
+                    const radio = document.getElementById(selectedOptions[index]);
+                    if (radio) radio.checked = true;
+                }
+                
+                // Show/hide navigation buttons
+                if (index === 0) {
+                    document.querySelectorAll('[id^="prev-btn"]').forEach(btn => {
+                        btn.style.visibility = 'hidden';
+                    });
+                } else {
+                    document.querySelectorAll('[id^="prev-btn"]').forEach(btn => {
+                        btn.style.visibility = 'visible';
+                    });
+                }
+            }
+            
+            // Show results function
+            function showResults() {
+                // Hide all questions
+                questions.forEach(question => {
+                    question.classList.remove('active');
+                });
+                
+                // Show results
+                quizResult.classList.add('active');
+                finalScoreSpan.textContent = score;
+                
+                // Set result message based on score
+                if (score === 5) {
+                    resultMessage.textContent = 'Excellent! You\'re a Vedic science expert!';
+                } else if (score >= 3) {
+                    resultMessage.textContent = 'Great job! You have good knowledge of Vedic science.';
+                } else {
+                    resultMessage.textContent = 'Keep exploring Vedic science to unlock more wisdom!';
+                }
+            }
+            
+            // Update stars based on score
+            function updateStars() {
+                resetStars();
+                
+                if (score >= 2) {
+                    stars[0].classList.remove('far');
+                    stars[0].classList.add('fas');
+                }
+                if (score >= 4) {
+                    stars[1].classList.remove('far');
+                    stars[1].classList.add('fas');
+                }
+                if (score === 5) {
+                    stars[2].classList.remove('far');
+                    stars[2].classList.add('fas');
+                }
+            }
+            
+            // Reset stars
+            function resetStars() {
+                stars.forEach(star => {
+                    star.classList.remove('fas');
+                    star.classList.add('far');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
