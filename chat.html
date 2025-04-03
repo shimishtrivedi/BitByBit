@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VedaVerse - Ved Rishi AI</title>
+    <style>
+        :root {
+            --primary: #8a2be2;
+            --secondary: #4ECDC4;
+            --accent: #FFD166;
+            --dark: #0a0a12;
+            --light: #f5f5f7;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chatbot-container {
+            max-width: 900px;
+            width: 100%;
+            margin: 20px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.2);
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+            background: linear-gradient(145deg, #1a1a2e, #0d0330);
+            border: 1px solid var(--primary);
+        }
+        
+        .chatbot-header {
+            background: linear-gradient(90deg, var(--primary), #6a11cb);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .chatbot-header h2 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .chatbot-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            line-height: 1.5;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .bot-message {
+            align-self: flex-start;
+            background-color: #2d2d4d;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            background: rgba(26, 26, 46, 0.8);
+            border-top: 1px solid var(--primary);
+        }
+        
+        #user-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        #send-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #send-button:hover {
+            background: #6a11cb;
+            transform: scale(1.05);
+        }
+        
+        .typing-indicator {
+            display: flex;
+            padding: 10px 15px;
+            background: #2d2d4d;
+            border-radius: 18px;
+            align-self: flex-start;
+            margin-bottom: 5px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--light);
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+        
+        .sanskrit {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 1.2em;
+            color: var(--accent);
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        .translation {
+            font-style: italic;
+            opacity: 0.9;
+            border-left: 2px solid var(--secondary);
+            padding-left: 10px;
+            margin: 5px 0 15px;
+        }
+        
+        .pronunciation {
+            font-size: 0.8em;
+            color: var(--secondary);
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .chatbot-container {
+                height: 90vh;
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h2>
+                <img src="https://i.imgur.com/JQ9pROn.png" alt="Ved Rishi">
+                Ved Rishi - Your Vedic Guide
+            </h2>
+        </div>
+        
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">
+                <div class="sanskrit">नमस्ते! वेदऋषिः अहम्</div>
+                <div class="translation">Namaste! I am Ved Rishi</div>
+                <p>How may I guide you through Vedic wisdom today?</p>
+            </div>
+        </div>
+        
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Ask about Vedic knowledge..." autocomplete="off">
+            <button id="send-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_KEY = "AIzaSyAeGgea0r1hbRrAZq9zPCoePIKZ0tA0JFM";
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        
+        // Vedic Knowledge Base with Sanskrit Verses
+        const vedicKnowledge = {
+            "mathematics": {
+                facts: [
+                    "Vedic Mathematics includes 16 sutras and 13 sub-sutras for mental calculations. The 'Urdhva-Tiryagbhyam' (vertically and crosswise) method can multiply 73×27 in seconds.",
+                    "Baudhayana's Śulba Sūtras (800 BCE) contain the Pythagorean theorem: 'The diagonal of a rectangle produces both areas which its length and width produce separately'.",
+                    "Ancient Indian mathematicians calculated π to 5 decimal places (3.1416) using the approximation: π ≈ (9785/11136) + 1/100"
+                ],
+                verses: [
+                    {
+                        sanskrit: "यत्र तत्र च सर्वत्र शून्यस्य स्थानमिष्यते।\nस हि संख्याविधौ प्रोक्तः क्षेपकः परमार्थतः॥",
+                        translation: "Wherever zero's place is indicated in calculation,\nIt is called the ultimate subtractive principle in mathematics.",
+                        pronunciation: "yatra tatra cha sarvatra shūnyasya sthānamishyate\nsa hi sankhyāvidhau proktah kshepakah paramārthatah"
+                    }
+                ]
+            },
+            "ayurveda": {
+                facts: [
+                    "Ayurveda identifies 7 body tissues (dhatus): Rasa (plasma), Rakta (blood), Mamsa (muscle), Meda (fat), Asthi (bone), Majja (marrow), and Shukra (reproductive).",
+                    "The Charaka Samhita describes 20 qualities (gunas) of all matter, like heavy/light, hot/cold, which form the basis of diagnosis.",
+                    "Sushruta (600 BCE) documented 121 surgical instruments and 300 surgical procedures including rhinoplasty"
+                ],
+                verses: [
+                    {
+                        sanskrit: "समदोषः समाग्निश्च समधातुमलक्रियः।\nप्रसन्नात्मेन्द्रियमनाः स्वस्थ इति अभिधीयते॥ (चरक संहिता)",
+                        translation: "One whose doshas are balanced, digestion is proper, tissues function normally,\nand whose mind, senses and soul are peaceful is called healthy. (Charaka Samhita)",
+                        pronunciation: "samadoshah samāgnishcha samadhātumalakriyah\nprasannātmendriyamanāh svastha iti abhidhīyate"
+                    }
+                ]
+            },
+            "astronomy": {
+                facts: [
+                    "The Vedanga Jyotisha (1400 BCE) describes a 366-day year with intercalary months to synchronize lunar and solar calendars.",
+                    "Aryabhata (499 CE) calculated Earth's circumference as 24,835 miles (actual: 24,901 miles) and explained eclipses as shadows.",
+                    "Bhaskara II's Siddhanta Shiromani (1150 CE) contains algebraic astronomy including mean planetary positions"
+                ],
+                verses: [
+                    {
+                        sanskrit: "सूर्याचन्द्रमसौ धाता यथापूर्वमकल्पयत्।\nदिवं च पृथिवीं चान्तरिक्षमथो स्वः॥ (ऋग्वेद 10.190.3)",
+                        translation: "The creator fashioned the Sun and Moon as before;\nHe formed the sky and earth, the space between, and the heavenly realm. (Rig Veda 10.190.3)",
+                        pronunciation: "sūryāchandramasau dhātā yathāpūrvamakalpayat\ndivam cha prithivīm chāntarikshamatho svah"
+                    }
+                ]
+            },
+            "yoga": {
+                facts: [
+                    "The Yoga Sutras describe 5 mental states (chitta vrittis): correct knowledge, misconception, imagination, sleep, and memory.",
+                    "Hatha Yoga Pradipika lists 15 essential asanas including Padmasana (lotus), Mayurasana (peacock), and Savasana (corpse pose).",
+                    "Nadis (energy channels) include 72,000 pathways with Ida (moon), Pingala (sun), and Sushumna (central) being primary"
+                ],
+                verses: [
+                    {
+                        sanskrit: "योगश्चित्तवृत्तिनिरोधः॥ (योग सूत्र 1.2)",
+                        translation: "Yoga is the cessation of fluctuations of consciousness. (Yoga Sutra 1.2)",
+                        pronunciation: "yogashchitta-vritti-nirodhah"
+                    },
+                    {
+                        sanskrit: "स्थिरसुखमासनम्॥ (योग सूत्र 2.46)",
+                        translation: "Asana is a steady, comfortable posture. (Yoga Sutra 2.46)",
+                        pronunciation: "sthirasukhamāsanam"
+                    }
+                ]
+            },
+            "upanishads": {
+                facts: [
+                    "The Mandukya Upanishad analyzes consciousness through four states: waking (jagrat), dreaming (svapna), deep sleep (sushupti), and transcendental (turiya).",
+                    "Chandogya Upanishad's 'Tat Tvam Asi' (तत् त्वम् असि) declares the identity of individual soul (Atman) with universal reality (Brahman).",
+                    "Brihadaranyaka Upanishad contains the earliest known reference to reincarnation (3.2.13)"
+                ],
+                verses: [
+                    {
+                        sanskrit: "अहं ब्रह्मास्मि॥ (बृहदारण्यक उपनिषद् 1.4.10)",
+                        translation: "I am Brahman (the ultimate reality). (Brihadaranyaka Upanishad 1.4.10)",
+                        pronunciation: "aham brahmāsmi"
+                    },
+                    {
+                        sanskrit: "तत् त्वम् असि॥ (छान्दोग्य उपनिषद् 6.8.7)",
+                        translation: "That thou art. (Chandogya Upanishad 6.8.7)",
+                        pronunciation: "tat tvam asi"
+                    }
+                ]
+            }
+        };
+
+        // =====================
+        // BACKEND INTEGRATION
+        // =====================
+        async function queryVedicAI(question) {
+            showTyping();
+            
+            try {
+                // In production, replace with actual API call
+                // This is a simulation using local knowledge
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Analyze question and generate response
+                const lowerQ = question.toLowerCase();
+                let category = null;
+                
+                if (/math|calculate|sutra|numer/.test(lowerQ)) category = "mathematics";
+                else if (/ayur|health|dosha|medic/.test(lowerQ)) category = "ayurveda";
+                else if (/star|planet|moon|sun|astron/.test(lowerQ)) category = "astronomy";
+                else if (/yoga|asana|prana|meditat/.test(lowerQ)) category = "yoga";
+                else if (/upanishad|vedanta|brahman|atman/.test(lowerQ)) category = "upanishads";
+                
+                // Generate response
+                let response = "";
+                if (category && vedicKnowledge[category]) {
+                    // Add random fact
+                    response = vedicKnowledge[category].facts[
+                        Math.floor(Math.random() * vedicKnowledge[category].facts.length)
+                    ];
+                    
+                    // 60% chance to include Sanskrit verse
+                    if (Math.random() < 0.6 && vedicKnowledge[category].verses) {
+                        const verse = vedicKnowledge[category].verses[
+                            Math.floor(Math.random() * vedicKnowledge[category].verses.length)
+                        ];
+                        response += `<div class="sanskrit">${verse.sanskrit}</div>`;
+                        response += `<div class="translation">${verse.translation}</div>`;
+                        response += `<div class="pronunciation">${verse.pronunciation}</div>`;
+                    }
+                } else {
+                    // General response
+                    const allCategories = Object.keys(vedicKnowledge);
+                    const randomCat = allCategories[Math.floor(Math.random() * allCategories.length)];
+                    response = vedicKnowledge[randomCat].facts[
+                        Math.floor(Math.random() * vedicKnowledge[randomCat].facts.length)
+                    ];
+                    
+                    // Include random Sanskrit verse
+                    if (vedicKnowledge[randomCat].verses.length > 0) {
+                        const verse = vedicKnowledge[randomCat].verses[
+                            Math.floor(Math.random() * vedicKnowledge[randomCat].verses.length)
+                        ];
+                        response += `<div class="sanskrit">${verse.sanskrit}</div>`;
+                        response += `<div class="translation">${verse.translation}</div>`;
+                        response += `<div class="pronunciation">${verse.pronunciation}</div>`;
+                    }
+                }
+                
+                return response;
+                
+            } catch (error) {
+                console.error("Error:", error);
+                return "Apologies, I'm experiencing difficulties. Please try again later.";
+            } finally {
+                hideTyping();
+            }
+        }
+
+        // =====================
+        // CHAT FUNCTIONS
+        // =====================
+        function addMessage(content, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.innerHTML = content;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function hideTyping() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) typingIndicator.remove();
+        }
+        
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            
+            addMessage(message, true);
+            userInput.value = '';
+            
+            const response = await queryVedicAI(message);
+            addMessage(response, false);
+            
+            // 30% chance for follow-up
+            if (Math.random() < 0.3) {
+                setTimeout(() => {
+                    const followUps = [
+                        "Would you like me to elaborate on any aspect of this?",
+                        "I can relate this to modern scientific understanding if you're interested.",
+                        "This concept connects to other Vedic teachings. Shall I explain?"
+                    ];
+                    addMessage(followUps[Math.floor(Math.random() * followUps.length)], false);
+                }, 1000);
+            }
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Initial knowledge prompt
+        setTimeout(() => {
+            addMessage("I can guide you through:<br>" + 
+                      "• वेदाङ्ग (Vedāngas): Astronomy, Mathematics, Phonetics<br>" +
+                      "• उपनिषद् (Upanishads): Spiritual philosophy<br>" +
+                      "• आयुर्वेद (Ayurveda): Health and medicine<br>" +
+                      "• योग (Yoga): Mind-body practices<br><br>" +
+                      "What aspect of Vedic wisdom interests you today?", false);
+        }, 1500);
+    </script>
+</body>
+</html>
